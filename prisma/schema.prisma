@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+//de primeira instancia era pra fazer uma tabela de autenticação, mas eu não sei como exigir uma password, e as outras informações como numero, nome de pai e mae e etc é o mesmo processo da string name.
+model User {
+  id             String          @id @default(uuid())
+  email          String          @unique
+  name           String
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+  request_access RequestAccess[] @relation("user")
+
+  @@map("users")
+}
+
+//Estabelecimento* criei a model do estabelecimento e já fiz a relation das tabelas do bd mas não fiz a criação dos filmes em si ainda, apenas deixei aqui porque ja tinha começado e também pra você dar uma olhada em como estão as coisas.
+model Place {
+  id             String          @id @default(uuid())
+  name           String          @unique
+  access_date    DateTime
+  request_access RequestAccess[] @relation("place")
+
+  @@map("places")
+}
+
+model RequestAccess {
+  user    User   @relation("user", fields: [userId], references: [id])
+  userId  String
+  place   Place  @relation("place", fields: [placeId], references: [id])
+  placeId String
+
+  @@id([userId, placeId])
+  @@map("request_access")
+}
