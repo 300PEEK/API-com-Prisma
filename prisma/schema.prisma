@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//de primeira instancia era pra fazer uma tabela de autenticação, mas eu não sei como exigir uma password, e as outras informações como numero, nome de pai e mae e etc é o mesmo processo da string name.
 model User {
   id             String          @id @default(uuid())
   email          String          @unique
@@ -19,7 +18,6 @@ model User {
   @@map("users")
 }
 
-//Estabelecimento* criei a model do estabelecimento e já fiz a relation das tabelas do bd mas não fiz a criação dos filmes em si ainda, apenas deixei aqui porque ja tinha começado e também pra você dar uma olhada em como estão as coisas.
 model Place {
   id             String          @id @default(uuid())
   name           String          @unique
